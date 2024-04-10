@@ -1,0 +1,91 @@
+openapi: "3.0.3"
+info:
+  title: API калькулятор для расчёта стоимости доставки
+  version: 1.0.0
+  description: |
+    *Калькулятор расчтёта стоимости доставки* - сервис расчёта стоимости доставки
+      ### Возможности сервиса
+      - расчёт стоимости доставки
+      - расчёт месяцев доставки
+      - реестр тоннажа доставки
+      - реестр типов сырья доставки
+      - реестр стоимости доставки
+      
+      Разработчик [{Никита Дужнов}]({https://gitlab-dev.efko.ru/cr_ovr_web9})
+tags:
+  - name: calculate
+    description: Расчёт стоимостей
+  - name: months
+    description: Регистр месяцев
+  - name: tonnages
+    description: Регистр тоннажей
+  - name: types
+    description: Регистр типов сырья
+  - name: prices
+    description: Регистер цен
+paths:
+  yii-application3/frontend/web/api/v1/months:
+    get:
+      tags:
+        - months
+      summary: Получить список месяцец
+      responses:
+        '200':
+          $ref: '#/components/responses/MonthSuccessfulResponse'
+        '401':
+          description: Не авторизован
+
+    post:
+      tags:
+        - months:
+      summary: Добавить месяц 
+      requsetBody:
+      $ref: '#/components/requestBodies/MonthData'
+      response:
+      '204':
+        description: Успешное удаление
+      '401':
+        description: Не авторизован
+
+
+components:
+
+  responses:
+    MonthSuccessfulResponse:
+      description: Успешный ответ
+      content:
+        application/json:
+          example:
+            - "январь"
+            - "февраль"
+            - "март"
+
+  parameters:
+    MonthParameter:
+      name: month
+      in: query
+      required: true
+      schema:
+        type: string
+        example: "январь"
+    TonnageParameter:
+      name: tonnage
+      in: query
+      required: true
+      schema:
+        type: number
+        example: 50
+    RawTypeParameter:
+      name: rawType
+      in: query
+      required: true
+      schema:
+        type: string
+        example: "сырье"
+    PriceParameter:
+      name: price
+      in: query
+      required: true
+      schema:
+        type: string
+        example: "шрот"
